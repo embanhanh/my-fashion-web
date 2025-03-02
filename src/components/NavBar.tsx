@@ -4,9 +4,11 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import MobileMenu from './MobileMenu'
 import Search from './Search'
+import CartMini from './CartMini'
 
 function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isCartOpen, setIsCartOpen] = useState(false)
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
@@ -44,12 +46,23 @@ function NavBar() {
                     </Link>
                 </div>
             </div>
-            <div className="flex items-center md:w-1/2 gap-4">
+            <div className="flex items-center md:w-1/2 gap-6">
                 {/* Actions */}
                 <Search />
-                <button className="flex">
-                    <Image src="/cart.png" alt="user" width={24} height={24} />
-                </button>
+                <div className="relative">
+                    <Image
+                        className="cursor-pointer"
+                        src="/cart.png"
+                        alt="user"
+                        width={24}
+                        height={24}
+                        onClick={() => setIsCartOpen(!isCartOpen)}
+                    />
+                    <span className="absolute -top-3 -right-3 bg-blue-500 text-white rounded-full px-2 py-1 text-xs">
+                        2
+                    </span>
+                    {isCartOpen && <CartMini />}
+                </div>
                 {/* User */}
                 <button className="flex">
                     {isLoggedIn ? (
