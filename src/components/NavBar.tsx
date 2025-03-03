@@ -9,6 +9,7 @@ import CartMini from './CartMini'
 function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isCartOpen, setIsCartOpen] = useState(false)
+    const [isUserOpen, setIsUserOpen] = useState(false)
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
@@ -19,11 +20,15 @@ function NavBar() {
         setIsMenuOpen(!isMenuOpen)
     }
 
+    const handleLogout = () => {
+        setIsUserOpen(false)
+    }
+
     if (!isMounted) {
         return null
     }
 
-    const isLoggedIn = false
+    const isLoggedIn = true
 
     return (
         <nav className="h-20 gap-20 flex items-center justify-between px-4 md:px-8 lg:px-16 2xl:px-32 relative">
@@ -48,10 +53,15 @@ function NavBar() {
             </div>
             <div className="flex items-center md:w-1/2 gap-6">
                 {/* Actions */}
+                {/* Search */}
                 <Search />
+                {/* Cart */}
                 <div className="relative">
+                    <Link href="/cart" className="block md:hidden hover:text-blue-500 transition-colors">
+                        <Image className="cursor-pointer" src="/cart.png" alt="user" width={24} height={24} />
+                    </Link>
                     <Image
-                        className="cursor-pointer"
+                        className="cursor-pointer hidden md:block"
                         src="/cart.png"
                         alt="user"
                         width={24}
@@ -64,15 +74,37 @@ function NavBar() {
                     {isCartOpen && <CartMini />}
                 </div>
                 {/* User */}
-                <button className="flex">
+                <div className="relative">
                     {isLoggedIn ? (
-                        <Image src="/user.png" alt="user" width={24} height={24} />
+                        <>
+                            <Link href="/profile" className="block md:hidden hover:text-blue-500 transition-colors">
+                                <Image className="cursor-pointer" src="/user.png" alt="user" width={24} height={24} />
+                            </Link>
+                            <Image
+                                className="cursor-pointer hidden md:block"
+                                src="/user.png"
+                                alt="user"
+                                width={24}
+                                height={24}
+                                onClick={() => setIsUserOpen(!isUserOpen)}
+                            />
+                            {isUserOpen && (
+                                <div className="hidden md:block absolute top-10 right-0 w-max bg-white shadow-lg rounded-lg p-4 z-50">
+                                    <Link href="/profile" className="hover:text-blue-500 transition-colors">
+                                        Profile
+                                    </Link>
+                                    <p className="hover:text-blue-500 transition-colors" onClick={handleLogout}>
+                                        Logout
+                                    </p>
+                                </div>
+                            )}
+                        </>
                     ) : (
                         <Link href="/login" className="hover:text-blue-500 transition-colors">
                             Login
                         </Link>
                     )}
-                </button>
+                </div>
                 {/* Menu Icon for Mobile */}
                 <button className="md:hidden focus:outline-none" onClick={toggleMenu} aria-label="Toggle menu">
                     <Image src="/menu.png" alt="menu" width={24} height={24} />

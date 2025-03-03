@@ -19,10 +19,10 @@ function MobileMenu({ isMenuOpen, toggleMenu }: { isMenuOpen: boolean; toggleMen
                         </button>
                     </div>
                     <div className="flex flex-col space-y-4">
-                        <Link href="/" className="py-2 hover:text-blue-500 transition-colors" onClick={toggleMenu}>
+                        <Link href="/" className="py-2 hover:text-blue-500 transition-colors">
                             Home
                         </Link>
-                        <Link href="/about" className="py-2 hover:text-blue-500 transition-colors" onClick={toggleMenu}>
+                        <Link href="/about" className="py-2 hover:text-blue-500 transition-colors">
                             About
                         </Link>
                         <Link href="/contact" className="py-2 hover:text-blue-500 transition-colors">

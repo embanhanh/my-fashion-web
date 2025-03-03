@@ -24,7 +24,7 @@ function CartMini() {
             <h2 className="text-2xl font-semibold">Shopping Cart</h2>
 
             {/* Danh sách sản phẩm với thanh cuộn */}
-            <div className="flex flex-col gap-2 overflow-y-auto max-h-[220px] pr-1">
+            <div className="flex flex-col gap-2 overflow-y-auto scrollbar max-h-[220px] pr-1">
                 {items.map((item) => (
                     <div key={item.id} className="flex items-center gap-2 rounded-lg hover:bg-gray-100 p-2">
                         <Image
