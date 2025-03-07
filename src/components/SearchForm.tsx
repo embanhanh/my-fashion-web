@@ -13,16 +13,17 @@ interface SearchFormProps {
 function SearchForm({ onSubmit, value = '', onChange, autoFocus = false, className = '' }: SearchFormProps) {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (value && value.trim() !== '') {
-            onSubmit(value)
-        }
+        const formData = new FormData(e.target as HTMLFormElement)
+        const searchTerm = formData.get('search') as string
+
+        onSubmit(searchTerm)
     }
 
     return (
         <form onSubmit={handleSubmit} className={className}>
             <div className="flex items-center bg-gray-100 rounded-full px-4">
                 <input
-                    name="name"
+                    name="search"
                     type="text"
                     placeholder="Search"
                     value={value}

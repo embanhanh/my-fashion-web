@@ -1,7 +1,7 @@
 import NavBar from '@/components/NavBar'
 import './globals.css'
 import Footer from '@/components/Footer'
-
+import { Providers } from './providers'
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -10,9 +10,11 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <NavBar />
-                {children}
-                <Footer />
+                <Providers>
+                    <NavBar />
+                    {children}
+                    <Footer />
+                </Providers>
             </body>
         </html>
     )

@@ -2,11 +2,16 @@
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import SearchForm from './SearchForm'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 function Search() {
     const [search, setSearch] = useState('')
     const [showModal, setShowModal] = useState(false)
     const [searchHistory, setSearchHistory] = useState<string[]>([])
+    const searchParams = useSearchParams()
+    const pathname = usePathname()
+    const router = useRouter()
 
     useEffect(() => {
         const savedHistory = localStorage.getItem('searchHistory')
@@ -29,12 +34,20 @@ function Search() {
     }, [])
 
     const handleSearch = (searchTerm: string) => {
+        if (pathname === '/list') {
+            const params = new URLSearchParams(searchParams as URLSearchParams)
+            params.set('search', searchTerm)
+            router.replace(`${pathname}?${params.toString()}`)
+        } else {
+            router.push(`/list?search=${searchTerm}`)
+        }
         if (searchTerm && searchTerm.trim() !== '') {
             const newHistory = [searchTerm, ...searchHistory.filter((item) => item !== searchTerm)].slice(0, 5)
             setSearchHistory(newHistory)
             localStorage.setItem('searchHistory', JSON.stringify(newHistory))
+        }
+        if (showModal) {
             setShowModal(false)
-            console.log(searchTerm)
         }
     }
 
