@@ -20,11 +20,11 @@ export const useProducts = (
     })
 }
 
-export const useProduct = (id: string) => {
+export const useProduct = (slug: string) => {
     return useQuery<Product>({
-        queryKey: ['product', id],
-        queryFn: () => productService.getById(id),
-        enabled: !!id,
+        queryKey: ['product', slug],
+        queryFn: () => productService.getBySlug(slug),
+        enabled: !!slug,
         staleTime: 5 * 60 * 1000, // Cache trong 5 phút
         gcTime: 30 * 60 * 1000, // Giữ trong cache 30 phút
         refetchOnWindowFocus: false,

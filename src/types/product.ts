@@ -9,21 +9,15 @@ export interface Product {
     stockQuantity: number
     rating: number
     createdAt: string
+    variants: Variant[]
 }
 
-export interface Review {
-    id: string
-    userId: string
-    rating: number
-    comment: string
-    createdAt: string
-}
-
-export interface ProductFilters {
-    category?: string
-    minPrice?: number
-    maxPrice?: number
-    sortBy?: 'price' | 'rating' | 'newest'
-    sortOrder?: 'asc' | 'desc'
-    search?: string
+export interface Variant {
+    color: string
+    size: string
+    price: number
+    stockQuantity: number
+    imageUrl: string
+    _id: string
+    product: string
 }
