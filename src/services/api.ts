@@ -41,7 +41,6 @@ export const productService = {
 export const categoryService = {
     getAll: async (): Promise<Category[]> => {
         const response = await api.get('/category')
-        console.log(response.data)
         return response.data
     },
 }

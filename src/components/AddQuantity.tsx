@@ -1,8 +1,7 @@
 'use client'
 import { useState } from 'react'
-function AddQuantity() {
+function AddQuantity({ stock }: { stock: number }) {
     const [quantity, setQuantity] = useState(1)
-    const stock = 10
     const handleQuantity = (type: 'increment' | 'decrement') => {
         if (type === 'increment') {
             setQuantity((prev) => {

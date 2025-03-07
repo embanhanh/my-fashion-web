@@ -12,7 +12,7 @@ function ProductPage() {
     const [selectedImage, setSelectedImage] = useState(0)
 
     const images = useMemo(
-        () => [...(data?.variants.map((variant) => variant.imageUrl) || []), ...(data?.urlImage || [])],
+        () => [...new Set(data?.variants.map((variant) => variant.imageUrl) || []), ...(data?.urlImage || [])],
         [data]
     )
 
@@ -25,7 +25,7 @@ function ProductPage() {
                     {/* Main Image */}
                     <div className="relative w-full aspect-[4/5] rounded-lg overflow-hidden">
                         <Image
-                            src={images[selectedImage]}
+                            src={images[selectedImage] || '/Group.png'}
                             alt="product"
                             className="object-cover"
                             fill
@@ -57,7 +57,7 @@ function ProductPage() {
                 {/* Info */}
                 <div className="w-full lg:w-1/2 flex flex-col gap-3">
                     <h2 className="text-2xl font-semibold">{data?.name}</h2>
-                    <p className="text-gray-500">{data?.description}</p>
+                    <p className="text-gray-500">{data?.description.slice(0, 100)}...</p>
                     {/* Separator */}
                     <div className="w-full h-[1px] bg-gray-200 my-4"></div>
                     {/* Price */}
@@ -68,7 +68,7 @@ function ProductPage() {
                     {/* Separator */}
                     <div className="w-full h-[1px] bg-gray-200 my-4"></div>
                     {/* Option */}
-                    <Option />
+                    <Option variants={data?.variants || []} />
                     {/* Separator */}
                     <div className="w-full h-[1px] bg-gray-200 my-4"></div>
                     {/* Details */}
