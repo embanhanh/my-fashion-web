@@ -1,8 +1,10 @@
 'use client'
 import { useState } from 'react'
 import { Variant } from '@/types/product'
+import { useCartMutations } from '@/hooks/useCart'
 
 function AddQuantity({ stock, enable, variant }: { stock: number; enable: boolean; variant: Variant }) {
+    const { addToCart, addToCartError, addToCartLoading } = useCartMutations()
     const [quantity, setQuantity] = useState(1)
     const handleQuantity = (type: 'increment' | 'decrement') => {
         if (type === 'increment') {
@@ -23,7 +25,10 @@ function AddQuantity({ stock, enable, variant }: { stock: number; enable: boolea
     }
 
     const handleAddToCart = () => {
-        console.log(variant)
+        addToCart({ variant: variant._id, quantity })
+        if (addToCartError) {
+            console.log(addToCartError)
+        }
     }
     return (
         <div className="flex items-center justify-between">
@@ -50,7 +55,7 @@ function AddQuantity({ stock, enable, variant }: { stock: number; enable: boolea
             </div>
             {/* Add to Cart */}
             <button
-                disabled={!enable}
+                disabled={!enable || variant === null || addToCartLoading}
                 onClick={handleAddToCart}
                 className="bg-red-400 px-5 py-2 rounded-full shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed"
             >

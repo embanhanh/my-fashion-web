@@ -1,6 +1,5 @@
 import { Product } from '@/types/product'
 import { Category } from '@/types/category'
-import { Cart } from '@/types/cart'
 import axios from 'axios'
 
 export const api = axios.create({
@@ -49,28 +48,6 @@ export const productService = {
 export const categoryService = {
     getAll: async (): Promise<Category[]> => {
         const response = await api.get('/category')
-        return response.data
-    },
-}
-
-export const cartService = {
-    getCart: async (): Promise<Cart> => {
-        const response = await api.get('/cart')
-        return response.data
-    },
-
-    addToCart: async (productId: string, quantity: number): Promise<Cart> => {
-        const response = await api.post('/cart', { productId, quantity })
-        return response.data
-    },
-
-    updateCartItem: async (itemId: string, quantity: number): Promise<Cart> => {
-        const response = await api.put(`/cart/${itemId}`, { quantity })
-        return response.data
-    },
-
-    removeFromCart: async (itemId: string): Promise<Cart> => {
-        const response = await api.delete(`/cart/${itemId}`)
         return response.data
     },
 }

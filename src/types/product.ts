@@ -19,5 +19,5 @@ export interface Variant {
     stockQuantity: number
     imageUrl: string
     _id: string
-    product: string
+    product: Product
 }

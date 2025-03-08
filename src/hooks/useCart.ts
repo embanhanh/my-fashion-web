@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { cartService } from '../services/api'
+import { cartService } from '@/services/cartService'
 import { Cart } from '@/types/cart'
 
 export const useCart = () => {
@@ -17,8 +17,8 @@ export const useCartMutations = () => {
     const queryClient = useQueryClient()
 
     const addToCartMutation = useMutation({
-        mutationFn: ({ productId, quantity }: { productId: string; quantity: number }) =>
-            cartService.addToCart(productId, quantity),
+        mutationFn: ({ variant, quantity }: { variant: string; quantity: number }) =>
+            cartService.addToCart(variant, quantity),
         onSuccess: () => {
             // Invalidate và refetch giỏ hàng sau khi thêm thành công
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -42,7 +42,13 @@ export const useCartMutations = () => {
 
     return {
         addToCart: addToCartMutation.mutate,
+        addToCartError: addToCartMutation.error,
+        addToCartLoading: addToCartMutation.isPending,
         updateCartItem: updateCartItemMutation.mutate,
+        updateCartItemError: updateCartItemMutation.error,
+        updateCartItemLoading: updateCartItemMutation.isPending,
         removeFromCart: removeFromCartMutation.mutate,
+        removeFromCartError: removeFromCartMutation.error,
+        removeFromCartLoading: removeFromCartMutation.isPending,
     }
 }

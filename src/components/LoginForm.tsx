@@ -7,6 +7,9 @@ import Link from 'next/link'
 import GoogleLogo from '@/app/login/components/GoogleLogo'
 import FacebookLogo from '@/app/login/components/FacebookLogo'
 import { useAuthLogin, useRegister, useVerifyEmail } from '@/hooks/useAuth'
+import { useAuth } from '@/context/userContext'
+import { useRouter } from 'next/navigation'
+
 enum Mode {
     LOGIN = 'login',
     REGISTER = 'register',
@@ -16,6 +19,8 @@ enum Mode {
 }
 
 const LoginForm: React.FC = () => {
+    const { user } = useAuth()
+    const router = useRouter()
     const { mutate: login } = useAuthLogin()
     const { mutate: register } = useRegister()
     const { mutate: verifyEmail } = useVerifyEmail()
@@ -27,7 +32,13 @@ const LoginForm: React.FC = () => {
     const [isMounted, setIsMounted] = useState(false)
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    const [mode, setMode] = useState<Mode>(Mode.VERIFY_EMAIL)
+    const [mode, setMode] = useState<Mode>(Mode.LOGIN)
+
+    useEffect(() => {
+        if (user) {
+            router.push('/')
+        }
+    }, [user, router])
 
     useEffect(() => {
         setIsMounted(true)
@@ -50,6 +61,8 @@ const LoginForm: React.FC = () => {
                 case Mode.VERIFY_EMAIL:
                     await verifyEmail({ email, code: verifyCode, mode: 'signup', password })
                     setMode(Mode.LOGIN)
+                    setVerifyCode('')
+                    setUsername('')
                     break
             }
         } catch (err) {

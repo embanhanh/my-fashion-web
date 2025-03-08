@@ -1,3 +1,5 @@
+import { Variant } from './product'
+
 export interface Cart {
     _id: string
     user: string
@@ -5,7 +7,8 @@ export interface Cart {
 }
 
 export interface CartItem {
-    variant: string
+    variant: Variant
     quantity: number
     status: string
+    _id: string
 }

@@ -5,8 +5,12 @@ import { useState, useEffect } from 'react'
 import MobileMenu from './MobileMenu'
 import Search from './Search'
 import CartMini from './CartMini'
+import { useAuth } from '@/context/userContext'
+import { useCart } from '@/hooks/useCart'
 
 function NavBar() {
+    const { user, logout } = useAuth()
+    const { data: cart } = useCart()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isCartOpen, setIsCartOpen] = useState(false)
     const [isUserOpen, setIsUserOpen] = useState(false)
@@ -20,15 +24,11 @@ function NavBar() {
         setIsMenuOpen(!isMenuOpen)
     }
 
-    const handleLogout = () => {
-        setIsUserOpen(false)
-    }
-
     if (!isMounted) {
         return null
     }
 
-    const isLoggedIn = true
+    const isLoggedIn = user !== null
 
     return (
         <nav className="h-20 gap-20 flex items-center justify-between px-4 md:px-8 lg:px-16 2xl:px-32 relative">
@@ -72,7 +72,7 @@ function NavBar() {
                         onClick={() => setIsCartOpen(!isCartOpen)}
                     />
                     <span className="absolute -top-3 -right-3 bg-blue-500 text-white rounded-full px-2 py-1 text-xs">
-                        2
+                        {cart?.items.length || 0}
                     </span>
                     {isCartOpen && <CartMini />}
                 </div>
@@ -96,7 +96,15 @@ function NavBar() {
                                     <Link href="/profile" className="hover:text-blue-500 transition-colors">
                                         Profile
                                     </Link>
-                                    <p className="hover:text-blue-500 transition-colors" onClick={handleLogout}>
+                                    <p
+                                        className="hover:text-blue-500 transition-colors"
+                                        onClick={() => {
+                                            logout()
+                                            setIsUserOpen(false)
+                                            setIsCartOpen(false)
+                                            setIsMenuOpen(false)
+                                        }}
+                                    >
                                         Logout
                                     </p>
                                 </div>

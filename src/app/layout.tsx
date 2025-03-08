@@ -2,6 +2,7 @@ import NavBar from '@/components/NavBar'
 import './globals.css'
 import Footer from '@/components/Footer'
 import { Providers } from './providers'
+import { AuthProvider } from '@/context/userContext'
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -10,11 +11,13 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <Providers>
-                    <NavBar />
-                    {children}
-                    <Footer />
-                </Providers>
+                <AuthProvider>
+                    <Providers>
+                        <NavBar />
+                        {children}
+                        <Footer />
+                    </Providers>
+                </AuthProvider>
             </body>
         </html>
     )
