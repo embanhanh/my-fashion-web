@@ -1,6 +1,8 @@
 'use client'
 import { useState } from 'react'
-function AddQuantity({ stock }: { stock: number }) {
+import { Variant } from '@/types/product'
+
+function AddQuantity({ stock, enable, variant }: { stock: number; enable: boolean; variant: Variant }) {
     const [quantity, setQuantity] = useState(1)
     const handleQuantity = (type: 'increment' | 'decrement') => {
         if (type === 'increment') {
@@ -18,6 +20,10 @@ function AddQuantity({ stock }: { stock: number }) {
                 return prev - 1
             })
         }
+    }
+
+    const handleAddToCart = () => {
+        console.log(variant)
     }
     return (
         <div className="flex items-center justify-between">
@@ -43,7 +49,11 @@ function AddQuantity({ stock }: { stock: number }) {
                 </p>
             </div>
             {/* Add to Cart */}
-            <button className="bg-red-400 px-5 py-2 rounded-full shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed">
+            <button
+                disabled={!enable}
+                onClick={handleAddToCart}
+                className="bg-red-400 px-5 py-2 rounded-full shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed"
+            >
                 <p className="text-lg text-white">Add to Cart</p>
             </button>
         </div>

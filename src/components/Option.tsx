@@ -9,10 +9,8 @@ function Option({ variants }: { variants: Variant[] }) {
     const [selectedColor, setSelectedColor] = useState<string>('')
     const [selectedSize, setSelectedSize] = useState<string>('')
 
-    const colors = [...new Set(variants.map((v) => v.color)), 'đỏ'].filter(Boolean)
-    const sizes = [...new Set(variants.map((v) => v.size)), 'XL'].filter(Boolean)
-
-    console.log(variants)
+    const colors = [...new Set(variants.map((v) => v.color))].filter(Boolean)
+    const sizes = [...new Set(variants.map((v) => v.size))].filter(Boolean)
 
     const availableSizes = selectedColor
         ? [...new Set(variants.filter((v) => v.color === selectedColor).map((v) => v.size))]
@@ -98,7 +96,15 @@ function Option({ variants }: { variants: Variant[] }) {
                 </>
             )}
             <h3 className="text-lg font-semibold">Choose Quantity</h3>
-            <AddQuantity stock={stock} />
+            <AddQuantity
+                stock={stock}
+                enable={
+                    (!!selectedColor && !!selectedSize) ||
+                    (!!selectedColor && sizes.length === 0) ||
+                    (!!selectedSize && colors.length === 0)
+                }
+                variant={selectedVariants[0] || null}
+            />
         </div>
     )
 }

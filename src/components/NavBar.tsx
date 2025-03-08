@@ -43,6 +43,9 @@ function NavBar() {
                     <Link href="/" className="hover:text-blue-500 transition-colors">
                         Home
                     </Link>
+                    <Link href="/list" className="hover:text-blue-500 transition-colors">
+                        Shop
+                    </Link>
                     <Link href="/about" className="hover:text-blue-500 transition-colors">
                         About
                     </Link>
